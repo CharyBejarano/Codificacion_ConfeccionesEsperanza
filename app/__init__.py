@@ -24,7 +24,7 @@ def create_app():
     app.register_blueprint(home_bp)
 
     app.config.from_object(Config)
-    
+   
     connection = pymysql.connect(
         host = app.config['MYSQL_HOST'],
         user = app.config['MYSQL_USER'],

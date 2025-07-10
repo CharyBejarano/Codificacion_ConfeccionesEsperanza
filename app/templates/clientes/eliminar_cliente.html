@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF="8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilosCliente.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a href="perfil.html" class="profile">
+                <img src="{{ url_for('static', filename='img/iconousuario.png') }}" alt="Perfil" class="profile-icon">
+                <span>Perfil</span>
+            </a>
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoemple.png') }}" alt="Empleados" class="icon">
+                <span>Usuarios</span>
+            </a>
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item"> {# Asumo ruta temporal para Tareas #}
+                <img src="{{ url_for('static', filename='img/iconoprovee.png') }}" alt="Proveedores" class="icon">
+                <span>Tareas</span>
+            </a>
+            <a href="{{ url_for('clientes.mostrar_clientes') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconocliente.png') }}" alt="Clientes" class="icon">
+                <span>Clientes</span>
+            </a>
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item"> {# Asumo ruta temporal para Configuración #}
+                <img src="{{ url_for('static', filename='img/iconoconfi.png') }}" alt="Configuración" class="icon">
+                <span>Configuración</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-links">
+                    <a href="{{ url_for('home.mostar_home') }}" class="nav-link">Inicio</a>
+                    <a href="{{ url_for('pedidos.mostrar_pedidos') }}" class="nav-link">Pedidos</a>
+                    <a href="{{ url_for('material.mostrar_material') }}" class="nav-link">Material</a>
+                    <a href="{{ url_for('empleados.mostrar_empleados') }}" class="nav-link">Balance general</a> {# Asumo ruta temporal para Balance #}
+                </div>
+                <div class="logout">
+                    <a href="login.html"> {# Si tienes un blueprint 'auth', usa url_for('auth.logout') #}
+                        <img src="{{ url_for('static', filename='img/iconosalida.png') }}" alt="Logout" class="logout-icon">
+                    </a>
+                </div>
+            </nav>
+
+            <div class="content">
+                <h2>Eliminar Cliente</h2>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class="flashes">
+                            {% for category, message in messages %}
+                                <li class="{{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="{{ url_for('clientes.eliminar_cliente') }}" onsubmit="return confirmDelete()">
+                    <div class="formulario">
+                        <label for="id_cliente_select_eliminar">Selecciona el Cliente a Eliminar:</label>
+                        <select id="id_cliente_select_eliminar" name="cliente_dropdown_data" required>
+                            <option value="">-- Selecciona un Cliente --</option>
+                            {% for cliente in clientes %}
+                                {# El value del option es el NIT, y usamos data- para num_identificacion y tipo_documento #}
+                                <option value="{{ cliente.NIT }}"
+                                        data-num-identificacion="{{ cliente.num_identificacion }}"
+                                        data-tipo-documento="{{ cliente.tipoDocumento_tipo_Doc }}">
+                                    {{ cliente.NIT }} - {{ cliente.nombre_cliente }} ({{ cliente.direccion_cliente }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                        {# Campos ocultos que se llenarán con JS para enviar al controlador #}
+                        <input type="hidden" id="num_identificacion_hidden" name="num_identificacion_hidden">
+                        <input type="hidden" id="tipo_documento_hidden" name="tipo_documento_hidden">
+
+                        <div class="grupo-botones">
+                            <button type="submit" class="eliminar">
+                                <img src="{{ url_for('static', filename='img/borrar.png') }}" class="icon" alt="Eliminar" />
+                                Eliminar Cliente
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function confirmDelete() {
+            var select = document.getElementById('id_cliente_select_eliminar');
+            var selectedOption = select.options[select.selectedIndex];
+
+            if (selectedOption.value === "") {
+                alert("Por favor, selecciona un cliente para eliminar.");
+                return false;
+            }
+
+            // Rellenar los campos ocultos antes de enviar
+            document.getElementById('num_identificacion_hidden').value = selectedOption.getAttribute('data-num-identificacion');
+            document.getElementById('tipo_documento_hidden').value = selectedOption.getAttribute('data-tipo-documento');
+
+            return confirm('¿Estás seguro de que quieres eliminar este cliente? Esta acción es irreversible y eliminará también la información personal asociada.');
+        }
+    </script>
+</body>
+</html>

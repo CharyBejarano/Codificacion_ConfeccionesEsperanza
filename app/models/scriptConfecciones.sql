@@ -111,4 +111,10 @@ INSERT INTO tipodocumento (tipo_Doc, Estado, descripcion)
 VALUES 
 ('CC', 1, 'Cédula de Ciudadanía'),
 ('TI', 1, 'Tarjeta de Identidad'),
+('NIT',1, 'Numero de Identificacion Tributaria')
 ('CE', 1, 'Cédula de Extranjería');
+
+
+
+CREATE DATABASE mel_app;
+USE mel_app;

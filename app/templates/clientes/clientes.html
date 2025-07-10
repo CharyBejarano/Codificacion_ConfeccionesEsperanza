@@ -59,9 +59,10 @@
                 <div class="content">
                     <h1>Clientes</h1>
                     <div class="employee-buttons">
-                        <a href="#" class="btn blue"><img src="{{ url_for('static', filename='img/iconRegistrar.png') }}"><span>Registrar cliente</span></a>
-                        <a href="#" class="btn orange"><img src="{{ url_for('static', filename='img/cheque.png') }}"><span>Consultar Clientes</span></a>
-                        <a href="#" class="btn green"><img src="{{ url_for('static', filename='img/iconoinforme.png') }}"><span>Editar clientes</span></a>
+                        <a href="{{ url_for('clientes.registrar_cliente') }}" class="btn blue"><img src="{{ url_for('static', filename='img/iconRegistrar.png') }}"><span>Registrar Cliente</span></a>
+                        <a href="{{ url_for('clientes.consultar_cliente') }}" class="btn orange"><img src="{{ url_for('static', filename='img/cheque.png') }}"><span>Consultar Cliente</span></a>
+                        <a href="{{ url_for('clientes.editar_cliente') }}" class="btn green"><img src="{{ url_for('static', filename='img/iconoinforme.png') }}"><span>Editar Cliente</span></a>
+                        <a href="{{ url_for('clientes.eliminar_cliente') }}" class="btn purple"><img src="{{ url_for('static', filename='img/editar.png') }}"><span>Eliminar Cliente</span></a>
                     </div>
                     <a href="{{ url_for('home.mostar_home') }}" class="btn volver">Volver</a>
                 </div>

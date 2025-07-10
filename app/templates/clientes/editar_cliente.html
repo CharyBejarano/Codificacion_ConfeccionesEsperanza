@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/empleado.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a href="{{ url_for('home.mostar_home') }}" class="profile"> {# Asumo que perfil.html es home.mostar_home #}
+                <img src="{{ url_for('static', filename='img/iconousuario.png') }}" alt="Perfil" class="profile-icon">
+                <span>Perfil</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoemple.png') }}" alt="Empleados" class="icon">
+                <span>Usuarios</span> 
+            </a>
+            
+            <a href="{{ url_for('pedidos.mostrar_pedidos') }}" class="menu-item"> {# Ajustado para Tareas/Pedidos #}
+                <img src="{{ url_for('static', filename='img/iconoprovee.png') }}" alt="Proveedores" class="icon">
+                <span>Tareas</span>
+            </a>
+            
+            <a href="{{ url_for('clientes.mostrar_clientes') }}" class="menu-item active"> 
+                <img src="{{ url_for('static', filename='img/iconocliente.png') }}" alt="Clientes" class="icon">
+                <span>Clientes</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item"> {# Revisa esta ruta para "Configuración" #}
+                <img src="{{ url_for('static', filename='img/iconoconfi.png') }}" alt="Configuración" class="icon">
+                <span>Configuración</span>
+            </a>
+        </div>
+        
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-links">
+                    <a href="{{ url_for('home.mostar_home') }}" class="nav-link">Inicio</a>
+                    <a href="{{ url_for('pedidos.mostrar_pedidos') }}" class="nav-link">Pedidos</a>
+                    <a href="{{ url_for('material.mostrar_material') }}" class="nav-link">Material</a>
+                    <a href="{{ url_for('empleados.mostrar_empleados') }}" class="nav-link">Balance general</a> {# Revisa esta ruta si es para "Balance general" #}
+                </div>
+                <div class="logout">
+                    <a href="login.html"> 
+                        <img src="{{ url_for('static', filename='img/iconosalida.png') }}" alt="Logout" class="logout-icon">
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="content">
+                <h1>Editar Cliente</h1>
+                
+                {# Mensajes Flash: Usar la forma estándar de Flask #}
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class="flashes">
+                            {% for category, message in messages %}
+                                <li class="{{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+
+                <div class="section">
+                    <h2>1. Seleccionar Cliente</h2>
+                    
+                    {% if clientes_todos %}
+                        {# Formulario para seleccionar el cliente y cargar sus datos. Se envía con JS al cambiar la selección. #}
+                        <form method="POST" action="{{ url_for('clientes.editar_cliente') }}">
+                            <input type="hidden" name="accion" value="cargar"> {# Importante: nombre 'accion' y valor 'cargar' #}
+                            <div class="form-group">
+                                <label for="cliente_a_editar">Selecciona el cliente que deseas editar:</label>
+                                <select name="cliente_a_editar" id="cliente_a_editar" required onchange="this.form.submit()">
+                                    <option value="">-- Selecciona un cliente --</option>
+                                    {% for cliente in clientes_todos %}
+                                        <option value="{{ cliente.num_identificacion }}|{{ cliente.tipoDocumento_tipo_Doc }}" 
+                                            {% if cliente_seleccionado and cliente_seleccionado.num_identificacion == cliente.num_identificacion and cliente_seleccionado.tipoDocumento_tipo_Doc == cliente.tipoDocumento_tipo_Doc %}selected{% endif %}>
+                                            {{ cliente.nombre_cliente }} ({{ cliente.num_identificacion }} - {{ cliente.tipoDocumento_tipo_Doc }}) - NIT: {{ cliente.NIT }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {# Si no usas onchange, puedes poner un botón aquí: #}
+                            {# <button type="submit" name="accion" value="cargar" class="btn btn-primary">Cargar Datos</button> #}
+                        </form>
+
+                        {# Muestra la tabla de clientes si hay para seleccionar #}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Identificación</th>
+                                    <th>Tipo Doc.</th>
+                                    <th>Nombre Completo</th>
+                                    <th>Correo</th>
+                                    <th>Teléfono</th>
+                                    <th>NIT</th>
+                                    <th>Dirección</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cliente in clientes_todos %}
+                                <tr>
+                                    <td>{{ cliente.num_identificacion }}</td>
+                                    <td>{{ cliente.tipoDocumento_tipo_Doc }}</td>
+                                    <td>{{ cliente.nombre_cliente }}</td>
+                                    <td>{{ cliente.Correo }}</td>
+                                    <td>{{ cliente.Telefono }}</td>
+                                    <td>{{ cliente.NIT }}</td>
+                                    <td>{{ cliente.cliente_direccion }}</td>
+                                    <td>
+                                        {# Enlace "Editar" que usa JS para seleccionar y enviar el formulario #}
+                                        <a href="#" onclick="
+                                            document.getElementById('cliente_a_editar').value = '{{ cliente.num_identificacion }}|{{ cliente.tipoDocumento_tipo_Doc }}'; 
+                                            document.getElementById('cliente_a_editar').form.submit();
+                                            return false;">
+                                            Editar
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No hay clientes registrados para editar.</p>
+                    {% endif %}
+                </div>
+
+                {% if cliente_seleccionado %}
+                <div class="section">
+                    <h2>2. Editar Datos del Cliente</h2>
+                    
+                    {# Formulario para actualizar los datos del cliente seleccionado #}
+                    <form method="POST" action="{{ url_for('clientes.editar_cliente') }}">
+                        <input type="hidden" name="accion" value="actualizar"> {# Importante: nombre 'accion' y valor 'actualizar' #}
+                        <input type="hidden" name="original_num_identificacion" value="{{ cliente_seleccionado.num_identificacion }}">
+                        <input type="hidden" name="original_tipo_documento" value="{{ cliente_seleccionado.tipoDocumento_tipo_Doc }}">
+                        {# Opcional, si el NIT del cliente no cambia, pero es bueno tener el original por si acaso #}
+                        <input type="hidden" name="original_nit_cliente" value="{{ cliente_seleccionado.NIT }}"> 
+                        
+                        <h3>Datos de la Persona</h3>
+                        <div class="form-group">
+                            <label for="num_identificacion_edit">Número de Identificación:</label>
+                            {# El num_identificacion aquí puede ser el nuevo si se permite cambiar la PK #}
+                            <input type="text" name="num_identificacion" id="num_identificacion_edit" 
+                                value="{{ cliente_seleccionado.num_identificacion }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo_documento_edit">Tipo de Documento:</label>
+                            {# Aquí también se puede cambiar el tipo de documento si se permite #}
+                            <select name="tipo_documento" id="tipo_documento_edit" required>
+                                <option value="">Selecciona un tipo</option>
+                                <option value="CC" {% if cliente_seleccionado.tipoDocumento_tipo_Doc == 'CC' %}selected{% endif %}>Cédula de Ciudadanía</option>
+                                <option value="TI" {% if cliente_seleccionado.tipoDocumento_tipo_Doc == 'TI' %}selected{% endif %}>Tarjeta de Identidad</option>
+                                <option value="CE" {% if cliente_seleccionado.tipoDocumento_tipo_Doc == 'CE' %}selected{% endif %}>Cédula de Extranjería</option>
+                                <option value="PP" {% if cliente_seleccionado.tipoDocumento_tipo_Doc == 'PP' %}selected{% endif %}>Pasaporte</option>
+                                <option value="NIT" {% if cliente_seleccionado.tipoDocumento_tipo_Doc == 'NIT' %}selected{% endif %}>NIT</option> {# Un NIT puede ser de persona o de empresa #}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre_edit">Nombre completo:</label>
+                            {# ESTE ES EL CAMPO UNIFICADO #}
+                            <input type="text" name="nombre_cliente" id="nombre_edit" value="{{ cliente_seleccionado.nombre_cliente }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="correo_edit">Correo Electrónico (Persona):</label>
+                            <input type="email" name="correo" id="correo_edit" value="{{ cliente_seleccionado.Correo }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono_edit">Teléfono de Contacto (Persona):</label>
+                            <input type="text" name="telefono" id="telefono_edit" value="{{ cliente_seleccionado.Telefono }}" required>
+                        </div>
+
+                        <h3>Datos del Cliente</h3>
+                        <div class="form-group">
+                            <label for="nit_cliente_edit">NIT del Cliente:</label>
+                            {# Usar name="nit_cliente" #}
+                            <input type="text" name="nit_cliente" id="nit_cliente_edit" value="{{ cliente_seleccionado.NIT }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion_cliente_edit">Dirección del Cliente:</label>
+                            {# Usar name="cliente_direccion" #}
+                            <input type="text" name="cliente_direccion" id="direccion_cliente_edit" value="{{ cliente_seleccionado.cliente_direccion }}" required>
+                        </div>
+                        
+                        <button type="submit" class="guardar-btn">Actualizar Cliente</button>
+                        <button type="button" class="btn-secondary" onclick="location.reload()">Cancelar</button>
+                    </form>
+                </div>
+                {% endif %}
+                <a href="{{ url_for('clientes.mostrar_clientes') }}" class="btn volver">Volver a Clientes</a> 
+            </div>
+        </div>
+    </div>
+</body>
+</html>
