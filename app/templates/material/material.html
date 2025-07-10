@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Pedidos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inventario.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Barra lateral izquierda -->
+        <div class="sidebar">
+            <a href="#" class="profile">
+                <img src="{{ url_for('static', filename='img/iconousuario.png') }}" alt="Perfil" class="profile-icon">
+                <span>Perfil</span>
+            </a>         
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoemple.png') }}" alt="Empleados" class="icon">
+                <span>Empleados</span>
+            </a>           
+            <a href="proveedores.html" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoprovee.png') }}" alt="Proveedores" class="icon">
+                <span>Tareas</span>
+            </a>       
+            <a href="clientes.html" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconocliente.png') }}" alt="Clientes" class="icon">
+                <span>Clientes</span>
+            </a>         
+            <a href="configuracion.html" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoconfi.png') }}" alt="Configuración" class="icon">
+                <span>Configuración</span>
+            </a>
+        </div>
+        <!-- Barra de navegación superior -->
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-links">
+                    <a href="{{ url_for('home.mostar_home') }}" class="nav-link">Inicio</a>
+                    <a href="{{ url_for('pedidos.mostrar_pedidos') }}" class="nav-link">Pedidos</a>
+                    <a href="{{ url_for('material.mostrar_material') }}" class="nav-link">Material</a>
+                    <a href="{{ url_for('empleados.mostrar_empleados') }}" class="nav-link">Balance general</a>
+                </div>
+                <div class="logout">
+                    <a href="login.html">
+                        <a href="login.html">
+                            <img src="{{ url_for('static', filename='img/iconosalida.png') }}" alt="Logout" class="logout-icon">
+                        </a>
+                    </a>
+                </div>
+            </nav>
+            <!-- Contenido principal -->
+            <div class="content">
+                <div class="content">
+                    <h1>Stock</h1>
+                    <div class="employee-buttons">
+                        <a href="registrarMaterial.html" class="btn blue"><img src="img/iconRegistrar.png"><span>Registrar Material</span></a>
+                        <a href="ver_invetario.html" class="btn orange"><img src="img/cheque.png"><span>Consultar Material</span></a>
+                        <a href="verReporte.html" class="btn green"><img src="img/iconoinforme.png"><span>Generar informes de Material</span></a>
+                    </div>         
+                    <a href="{{ url_for('home.mostar_home') }}" class="btn volver">Volver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

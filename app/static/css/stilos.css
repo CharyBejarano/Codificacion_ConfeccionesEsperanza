@@ -1,0 +1,343 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+/* Barra lateral */
+.sidebar {
+    width: 100px;
+    background: linear-gradient(to bottom, #3f51b5, #673ab7);
+    color: white;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile, .menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 15px 0;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.profile:hover, .menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.profile {
+    margin-bottom: 20px;
+}
+
+.profile-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+.icon {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+/* Contenido principal */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Barra de navegación superior */
+.top-nav {
+    background: linear-gradient(to right, #673ab7, #9c27b0);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    width: 80%; /* Ocupa la mayor parte del espacio disponible */
+    justify-content: space-between; /* Distribuye los elementos uniformemente */
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    text-align: center;
+    flex: 1; /* Cada enlace ocupa una proporción igual del espacio */
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logout {
+    width: 15%; /* Reserva espacio para el botón de logout */
+    display: flex;
+    justify-content: flex-end;
+}
+
+.logout-icon {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+/* Contenido */
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    font-weight: normal;
+    font-size: 28px;
+    text-align: center;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+}
+
+/* Contador de entrega */
+.delivery-timer {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.timer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.time-unit {
+    text-align: center;
+}
+
+.time {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.unit {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+/* Gráfico de porcentaje */
+.percentage-chart {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+}
+
+h3 {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.donut-chart {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: conic-gradient(#1a5276 0% 70%, #85929e 70% 100%);
+    position: relative;
+}
+
+.donut-inner {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border-radius: 50%;
+    top: 35px;
+    left: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.donut-label {
+    text-align: center;
+}
+
+.complete {
+    color: #1a5276;
+    font-weight: bold;
+}
+
+.incomplete {
+    color: #85929e;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.legend-color.complete {
+    background-color: #1a5276;
+}
+
+.legend-color.incomplete {
+    background-color: #85929e;
+}
+
+.details-link {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Lista de pedidos pendientes */
+.pending-orders {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    grid-column: 1;
+}
+
+.order-item {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+    align-items: center;
+}
+
+.company-logo {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+.order-details {
+    flex: 1;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.progress-container {
+    width: 150px;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #673ab7;
+    text-align: center;
+    color: white;
+    line-height: 20px;
+    font-size: 12px;
+}
+
+.more-options {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Gráfico de pedidos por semestre */
+.semester-chart {
+    background-color: #05445E;
+    padding: 20px;
+    border-radius: 5px;
+    color: white;
+}
+
+.bar-chart {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 200px;
+    margin-top: 30px;
+}
+
+.bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40px;
+}
+
+.bar {
+    width: 30px;
+    background-color: #f8f8f8;
+    background-image: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent);
+    background-size: 20px 20px;
+}
+
+.bar-label {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+@media (max-width: 1024px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav-link {
+        font-size: 18px;
+    }
+}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConfeccionEsperanza - Registrarse</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body background="{{ url_for('static', filename='img/fondo1.jpg') }}">
+  <div class="login-card" style="max-width: 450px;">
+    <h1>Registrarse</h1>
+    
+    <!-- Mostrar mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
+    <form action="{{ url_for('usuarios_bp.registrarse') }}" method="post">
+      <div class="input-group">
+        <select name="tipo_documento" class="input" required>
+          <option value="">Seleccione tipo de documento</option>
+          <option value="CC">Cédula de Ciudadanía</option>
+          <option value="TI">Tarjeta de Identidad</option>
+          <option value="CE">Cédula de Extranjería</option>
+          <option value="PP">Pasaporte</option>
+        </select>
+        <label for="tipo_documento"><i class="doc-icon"></i></label>
+      </div>
+      
+      <div class="input-group">
+        <input type="text" class="input" name="num_identificacion" placeholder="Número de identificación" required>
+        <label for="num_identificacion"><i class="id-icon"></i></label>
+      </div>
+      
+      <div class="input-group">
+        <input type="text" class="input" name="nombre" placeholder="Nombre" required>
+        <label for="nombre"><i class="user-icon"></i></label>
+      </div>
+      
+      <div class="input-group">
+        <input type="text" class="input" name="apellido" placeholder="Apellido" required>
+        <label for="apellido"><i class="user-icon"></i></label>
+      </div>
+      
+      <div class="input-group">
+        <input type="email" class="input" name="correo" placeholder="Correo electrónico" required>
+        <label for="correo"><i class="email-icon"></i></label>
+      </div>
+      
+      <div class="input-group">
+        <input type="tel" class="input" name="telefono" placeholder="Teléfono (opcional)">
+        <label for="telefono"><i class="phone-icon"></i></label>
+      </div>
+      
+      <div class="input-group">
+        <input type="password" class="input" name="password" placeholder="Contraseña" required minlength="6">
+        <label for="password"><i class="lock-icon"></i></label>
+      </div>
+      
+      <div class="input-group">
+        <input type="password" class="input" name="confirm_password" placeholder="Confirmar contraseña" required minlength="6">
+        <label for="confirm_password"><i class="lock-icon"></i></label>
+      </div>
+      
+      <div class="button-container">
+        <button type="submit" class="btn-iniciar">Registrarse</button>
+      </div>
+      
+      <div class="register-link">
+        <p>¿Ya tienes cuenta? <a href="{{ url_for('usuarios_bp.iniciarSesion') }}">Inicia sesión aquí</a></p>
+      </div>
+    </form>
+  </div>
+
+  <style>
+    /* Estilos para mensajes flash */
+    .alert {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-align: center;
+    }
+    
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .alert-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .register-link {
+      text-align: center;
+      margin-top: 15px;
+    }
+    
+    .register-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Estilos para el select */
+    .input-group select {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid #ddd;
+      color: #333;
+      font-size: 16px;
+      padding: 10px 0;
+      width: 100%;
+      outline: none;
+      appearance: none;
+    }
+    
+    .input-group select:focus {
+      border-bottom-color: #007bff;
+    }
+    
+    .input-group select option {
+      background: white;
+      color: #333;
+    }
+  </style>
+
+  <script>
+    // Validación de contraseñas
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.querySelector('form');
+      const password = document.querySelector('input[name="password"]');
+      const confirmPassword = document.querySelector('input[name="confirm_password"]');
+      
+      form.addEventListener('submit', function(e) {
+        if (password.value !== confirmPassword.value) {
+          e.preventDefault();
+          alert('Las contraseñas no coinciden');
+          confirmPassword.focus();
+        }
+      });
+      
+      // Validación en tiempo real
+      confirmPassword.addEventListener('input', function() {
+        if (password.value !== confirmPassword.value) {
+          confirmPassword.setCustomValidity('Las contraseñas no coinciden');
+        } else {
+          confirmPassword.setCustomValidity('');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

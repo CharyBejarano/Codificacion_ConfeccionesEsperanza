@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConfeccionEsperanza - Iniciar Sesión</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body background="{{ url_for('static', filename='img/fondo1.jpg') }}">
+  <div class="login-card">
+    <h1>Iniciar Sesión</h1>
+    
+    <!-- Mostrar mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
+    <form action="{{ url_for('usuarios_bp.iniciarSesion') }}" method="post">
+      <div class="input-group">
+        <input type="email" class="input" name="email" placeholder="Correo electrónico" required>
+        <label for="email"><i class="user-icon"></i></label>
+      </div>
+      <div class="input-group">
+        <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+        <label for="contrasena"><i class="lock-icon"></i></label>
+      </div>
+      <div class="forgot-password">
+        <a href="RecueperarContraseña.html">Olvidé mi contraseña</a>
+      </div>
+      <div class="button-container">
+        <button type="submit" class="btn-iniciar">Iniciar Sesión</button>
+      </div>
+      <div class="register-link">
+        <p>¿No tienes cuenta? <a href="{{ url_for('usuarios_bp.registrarse') }}">Regístrate aquí</a></p>
+      </div>
+    </form>
+  </div>
+
+  <style>
+    /* Estilos para mensajes flash */
+    .alert {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-align: center;
+    }
+    
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .alert-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .register-link {
+      text-align: center;
+      margin-top: 15px;
+    }
+    
+    .register-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</body>
+</html>

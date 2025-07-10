@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Pedidos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/empleado.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Barra lateral izquierda -->
+        <div class="sidebar">
+            <a href="#" class="profile">
+                <img src="{{ url_for('static', filename='img/iconousuario.png') }}" alt="Perfil" class="profile-icon">
+                <span>Perfil</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoemple.png') }}" alt="Empleados" class="icon">
+                <span>usuarios</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoprovee.png') }}" alt="Proveedores" class="icon">
+                <span>Tareas</span>
+            </a>
+            
+            <a href="{{ url_for('clientes.mostrar_clientes') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconocliente.png') }}" alt="Clientes" class="icon">
+                <span>Clientes</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoconfi.png') }}" alt="Configuración" class="icon">
+                <span>Configuración</span>
+            </a>
+        </div>
+        <!-- Barra de navegación superior -->
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-links">
+                    <a href="{{ url_for('home.mostar_home') }}" class="nav-link">Inicio</a>
+                    <a href="{{ url_for('pedidos.mostrar_pedidos') }}" class="nav-link">Pedidos</a>
+                    <a href="{{ url_for('material.mostrar_material') }}" class="nav-link">Material</a>
+                    <a href="{{ url_for('empleados.mostrar_empleados') }}" class="nav-link">Balance general</a>
+                </div>
+                <div class="logout">
+                    <a href="login.html">
+                        <a href="login.html">
+                            <img src="{{ url_for('static', filename='img/iconosalida.png') }}" alt="Logout" class="logout-icon">
+                        </a>
+                    </a>     
+                </div>
+            </nav>
+            <!-- Contenido principal -->
+            <div class="content">
+                <h1>Registar empleados</h1>
+                <div class="form-content">
+                    <form action="{{ url_for('empleados.registrar_empleado')}}" method="post" class="container-fluid d-flex flex-column gap-2" style="max-width: 600px;">
+
+                        <div class="form-content">
+                            <div class="foto-section">
+                                <div class="foto-circulo">Foto</div>
+                            </div>
+                  
+                            <div class="inputs-section">
+                                <div class="input-group">
+                                    <select name="tipo_documento" class="input" required>
+                                        <option value="">Seleccione tipo de documento</option>
+                                        <option value="CC">Cédula de Ciudadanía</option>
+                                        <option value="TI">Tarjeta de Identidad</option>
+                                        <option value="CE">Cédula de Extranjería</option>
+                                        <option value="PP">Pasaporte</option>
+                                    </select>
+                                    <label for="tipo_documento"><i class="doc-icon"></i></label>
+                                </div>
+                                <label>numero de identificacion:
+                                    <div class="input-con-icono">
+                                        <input type="text" class="input" name="num_identificacion" placeholder="" required>
+                                        <i class="fas fa-pen"></i>
+                                    </div>
+                                </label>
+                                <label>Nombre:
+                                    <div class="input-con-icono">
+                                        <input type="text" class="input" name="nombre" placeholder="" required>
+                                        <i class="fas fa-pen"></i>
+                                    </div>
+                                </label>
+                                <label>Apellido:
+                                    <div class="input-con-icono">
+                                        <input type="text" class="input" name="apellido" placeholder="" required>
+                                        <i class="fas fa-pen"></i>
+                                    </div>
+                                </label>
+                  
+                                <label>Email:
+                                    <div class="input-con-icono">
+                                        <input type="email" class="input" name="correo" placeholder="" required>
+                                        <i class="fas fa-pen"></i>
+                                    </div>
+                                </label>
+                                <label>Telefono:
+                                    <div class="input-con-icono">
+                                        <input type="tel" class="input" name="telefono" placeholder="">
+                                        <i class="fas fa-pen"></i>
+                                    </div>
+                                </label>
+                                <label>Contraseña:
+                                    <div class="input-con-icono">
+                                        <input type="password" class="input" name="password" placeholder="Contraseña" required minlength="6">
+                                        <i class="fas fa-pen"></i>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="botones">
+                            <div class="button-container">
+                                <button type="submit" class="btn-iniciar">Registrarse</button>
+                            </div>
+                            <div class="volver-btn">
+                                <a href="{{ url_for('home.mostar_home') }}" id="olvidar-contrasena">volver</a>
+                            </div>
+                        </div>
+                    </form>
+                    <a href="{{ url_for('home.mostar_home') }}" class="btn volver">Volver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

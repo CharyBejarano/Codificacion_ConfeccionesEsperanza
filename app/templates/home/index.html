@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Pedidos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+</head>
+<body>
+    <div class="container"> 
+        <!-- Barra lateral izquierda -->
+        <div class="sidebar">
+            <a href="perfil.html" class="profile">
+                <img src="{{ url_for('static', filename='img/iconousuario.png') }}" alt="Perfil" class="profile-icon">
+                <span>Perfil</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoemple.png') }}" alt="Empleados" class="icon">
+                <span>Empleados</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoprovee.png') }}" alt="Proveedores" class="icon">
+                <span>Tareas</span>
+            </a>
+            
+            <a href="{{ url_for('clientes.mostrar_clientes') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconocliente.png') }}" alt="Clientes" class="icon">
+                <span>Clientes</span>
+            </a>
+            
+            <a href="configuracion.html" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoconfi.png') }}" alt="Configuración" class="icon">
+                <span>Configuración</span>
+            </a>
+        </div>
+
+        <!-- Barra de navegación superior -->
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-links">
+                    <a href="{{ url_for('home.mostar_home') }}" class="nav-link">Inicio</a>
+                    <a href="{{ url_for('pedidos.mostrar_pedidos') }}" class="nav-link">Pedidos</a>
+                    <a href="{{ url_for('material.mostrar_material') }}" class="nav-link">Material</a>
+                    <a href="{{ url_for('empleados.mostrar_empleados') }}" class="nav-link">Balance general</a>
+                </div>
+                <div class="logout">
+                    <a href="{{ url_for('usuarios_bp.cerrarSesion') }}">
+                        <img src="{{ url_for('static', filename='img/iconosalida.png') }}" alt="Logout" class="logout-icon">
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Contenido principal -->
+            <div class="content">
+                <h1>Proximo pedido</h1>
+                
+                <div class="content-grid">
+                    <!-- Contador de entrega -->
+                    <div class="delivery-timer">
+                        <h2>Se entrega en:</h2>
+                        <div class="timer">
+                            <div class="time-unit">
+                                <div class="time">2</div>
+                                <div class="unit">Días</div>
+                            </div>
+                            <div class="time-unit">
+                                <div class="time">7</div>
+                                <div class="unit">Horas</div>
+                            </div>
+                            <div class="time-unit">
+                                <div class="time">30</div>
+                                <div class="unit">Minutos</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gráfico de porcentaje -->
+                    <div class="percentage-chart">
+                        <h3>Porcentaje completado</h3>
+                        <div class="donut-chart">
+                            <div class="donut-inner">
+                                <div class="donut-label">
+                                    <div class="complete">70%</div>
+                                    <div class="incomplete">30%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="legend-color complete"></span>
+                                <span>Completado</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color incomplete"></span>
+                                <span>Faltante</span>
+                            </div>
+                        </div>
+                        <a href="#" class="details-link">Detalles</a>
+                    </div>
+
+                    <!-- Lista de pedidos pendientes -->
+                    <div class="pending-orders">
+                        <h2>Pedidos pendientes</h2>
+                        <div class="order-item">
+                            <img src="{{ url_for('static', filename='img/proveedor1.jpg') }}" alt="Security" class="company-logo">
+                            <div class="order-details">
+                                <div class="detail-row">
+                                    <span>Prcentaje completado</span>
+                                    <span>Fecha de entrega</span>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="progress-container">
+                                        <div class="progress-bar" style="width: 25%;">25%</div>
+                                    </div>
+                                    <span>20 de Enero 2025</span>
+                                </div>
+                            </div>
+                            <div class="more-options">•••</div>
+                        </div>
+                        
+                        <div class="order-item">
+                            <img src="{{ url_for('static', filename='img/proveedor2.jpg') }}" alt="Supermarket" class="company-logo">
+                            <div class="order-details">
+                                <div class="detail-row">
+                                    <span>Prcentaje completado</span>
+                                    <span>Fecha de entrega</span>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="progress-container">
+                                        <div class="progress-bar" style="width: 43%;">43%</div>
+                                    </div>
+                                    <span>15 de Enero 2025</span>
+                                </div>
+                            </div>
+                            <div class="more-options">•••</div>
+                        </div>
+                        
+                        <div class="order-item">
+                            <img src="{{ url_for('static', filename='img/proveedor3.jpg') }}" alt="Builder" class="company-logo">
+                            <div class="order-details">
+                                <div class="detail-row">
+                                    <span>Prcentaje completado</span>
+                                    <span>Fecha de entrega</span>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="progress-container">
+                                        <div class="progress-bar" style="width: 75%;">75%</div>
+                                    </div>
+                                    <span>1 de Febrero 2025</span>
+                                </div>
+                            </div>
+                            <div class="more-options">•••</div>
+                        </div>
+                    </div>
+
+                    <!-- Gráfico de pedidos por semestre -->
+                    <div class="semester-chart">
+                        <h2>PEDIDOS POR SEMETRE</h2>
+                        <div class="bar-chart">
+                            <div class="bar-container">
+                                <div class="bar" style="height: 30%"></div>
+                                <div class="bar-label">2022-1</div>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar" style="height: 50%"></div>
+                                <div class="bar-label">2022-2</div>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar" style="height: 40%"></div>
+                                <div class="bar-label">2023-1</div>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar" style="height: 60%"></div>
+                                <div class="bar-label">2023-2</div>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar" style="height: 20%"></div>
+                                <div class="bar-label">2024-1</div>
+                            </div>
+                            <div class="bar-container">
+                                <div class="bar" style="height: 70%"></div>
+                                <div class="bar-label">2024-2</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

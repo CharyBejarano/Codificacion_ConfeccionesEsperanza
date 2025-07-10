@@ -1,0 +1,45 @@
+@import url(stilos.css);
+
+.titulo {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start; 
+    height: auto; 
+    background-color: #f4f4f9; 
+    padding: 20px; 
+}
+
+.titulo h1 {
+    font-size: 3rem; 
+    color: #333; 
+    font-family: 'Arial', sans-serif; 
+    text-align: center; 
+    padding: 20px; 
+    border: 2px solid #4CAF50; 
+    border-radius: 10px; 
+    background-color: #e8f5e9; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.cambiar-tema {
+    margin: 20px auto;
+    text-align: center;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cambiar-tema h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#selector-tema {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}

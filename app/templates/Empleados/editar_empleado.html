@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Pedidos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/empleado.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Barra lateral izquierda -->
+        <div class="sidebar">
+            <a href="perfil.html" class="profile">
+                <img src="{{ url_for('static', filename='img/iconousuario.png') }}" alt="Perfil" class="profile-icon">
+                <span>Perfil</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoemple.png') }}" alt="Empleados" class="icon">
+                <span>usuarios</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoprovee.png') }}" alt="Proveedores" class="icon">
+                <span>Tareas</span>
+            </a>
+            
+            <a href="{{ url_for('clientes.mostrar_clientes') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconocliente.png') }}" alt="Clientes" class="icon">
+                <span>Clientes</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoconfi.png') }}" alt="Configuración" class="icon">
+                <span>Configuración</span>
+            </a>
+        </div>
+        <!-- Barra de navegación superior -->
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-links">
+                    <a href="{{ url_for('home.mostar_home') }}" class="nav-link">Inicio</a>
+                    <a href="{{ url_for('pedidos.mostrar_pedidos') }}" class="nav-link">Pedidos</a>
+                    <a href="{{ url_for('material.mostrar_material') }}" class="nav-link">Material</a>
+                    <a href="{{ url_for('empleados.mostrar_empleados') }}" class="nav-link">Balance general</a>
+                </div>
+                <div class="logout">
+                    <a href="login.html">
+                        <a href="login.html">
+                            <img src="{{ url_for('static', filename='img/iconosalida.png') }}" alt="Logout" class="logout-icon">
+                        </a>
+                    </a>     
+                </div>
+            </nav>
+            <!-- Contenido principal -->
+            <div class="content">
+                <div class="content">
+                    <h1>Editar Empleado</h1>
+                    {% if mensaje %}
+            <div class="mensaje {% if 'exitosamente' in mensaje or 'cargados' in mensaje %}success{% elif 'Error' in mensaje or 'no' in mensaje %}error{% else %}info{% endif %}">
+                {{ mensaje }}
+            </div>
+        {% endif %}
+
+        <!-- Sección 1: Seleccionar usuario para editar -->
+        <div class="section">
+            <h2>1. Seleccionar Usuario</h2>
+            
+            {% if usuarios %}
+                <form method="POST">
+                    <input type="hidden" name="accion" value="cargar">
+                    <div class="form-group">
+                        <label for="id_usuario">Selecciona el usuario que deseas editar:</label>
+                        <select name="id_usuario" id="id_usuario" required>
+                            <option value="">-- Selecciona un usuario --</option>
+                            {% for usuario in usuarios %}
+                                <option value="{{ usuario.id_usuario }}" 
+                                    {% if usuario_seleccionado and usuario_seleccionado.id_usuario == usuario.id_usuario %}selected{% endif %}>
+                                    {{ usuario.nombre_usuario }} ({{ usuario.email }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit">Cargar Datos</button>
+                </form>
+
+                <!-- Tabla de usuarios -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Fecha Registro</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.id_usuario }}</td>
+                            <td>{{ usuario.nombre_usuario }}</td>
+                            <td>{{ usuario.email }}</td>
+                            <td>
+                                {% if usuario.fecha_registro %}
+                                    {{ usuario.fecha_registro.strftime('%d/%m/%Y %H:%M') }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('empleados.editar_empleado', id_usuario=usuario.id_usuario) }}" 
+                                   style="color: #007bff; text-decoration: none;">Editar</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No hay usuarios registrados para editar.</p>
+            {% endif %}
+        </div>
+
+        <!-- Sección 2: Formulario de edición (solo se muestra si hay un usuario seleccionado) -->
+        {% if usuario_seleccionado %}
+        <div class="section">
+            <h2>2. Editar Datos del Usuario</h2>
+            
+            <form method="POST">
+                <input type="hidden" name="accion" value="actualizar">
+                <input type="hidden" name="id_usuario" value="{{ usuario_seleccionado.id_usuario }}">
+                
+                <div class="form-group">
+                    <label for="name">Nombre de Usuario:</label>
+                    <input type="text" name="name" id="name" value="{{ usuario_seleccionado.nombre_usuario }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" value="{{ usuario_seleccionado.email }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Nueva Contraseña:</label>
+                    <input type="password" name="password" id="password" placeholder="Deja en blanco para mantener la actual">
+                    <div class="password-note">* Solo completa este campo si deseas cambiar la contraseña</div>
+                </div>
+                
+                <button type="submit">Actualizar Usuario</button>
+                <button type="button" class="btn-secondary" onclick="location.reload()">Cancelar</button>
+            </form>
+        </div>
+        {% endif %}
+                    <a href="{{ url_for('home.mostar_home') }}" class="btn volver">Volver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

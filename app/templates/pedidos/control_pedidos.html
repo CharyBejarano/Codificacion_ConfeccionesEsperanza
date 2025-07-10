@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Pedidos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilosPedido.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Bootstrap/bootstrap.min.js') }}">
+</head>
+<body>
+    <div class="containers">
+        <!-- Barra lateral izquierda -->
+        <div class="sidebar">
+            <a href="#" class="profile">
+                <img src="{{ url_for('static', filename='img/iconousuario.png') }}" alt="Perfil" class="profile-icon">
+                <span>Perfil</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoemple.png') }}" alt="Empleados" class="icon">
+                <span>Empleados</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoprovee.png') }}" alt="Proveedores" class="icon">
+                <span>Tareas</span>
+            </a>
+            
+            <a href="{{ url_for('clientes.mostrar_clientes') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconocliente.png') }}" alt="Clientes" class="icon">
+                <span>Clientes</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoconfi.png') }}" alt="Configuración" class="icon">
+                <span>Configuración</span>
+            </a>
+        </div>
+
+        <!-- Barra de navegación superior -->
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-links">
+                    <a href="{{ url_for('home.mostar_home') }}" class="nav-link">Inicio</a>
+                    <a href="{{ url_for('pedidos.mostrar_pedidos') }}" class="nav-link">Pedidos</a>
+                    <a href="{{ url_for('material.mostrar_material') }}" class="nav-link">Material</a>
+                    <a href="{{ url_for('empleados.mostrar_empleados') }}" class="nav-link">Balance general</a>
+                </div>
+                <div class="logout">
+                    <a href="login.html">
+                        <img src="{{ url_for('static', filename='img/iconosalida.png') }}" alt="Logout" class="logout-icon">
+                    </a>
+                </div>
+            </nav>
+                <!-- Contenido principal -->
+            <div class="container-fluid mt-3">
+                <h1>Control de Pedidos 3.4</h1>
+
+                <!--barra de busqueda-->
+                <div class="search">
+                    <form class="simple-search-form" action="#" method="get">
+                        <input type="text" class="search-input" placeholder="Buscar..."/>
+                        <button type="submit" class="search-button">Buscar</button>
+                    </form>
+                </div>
+                <!--CARDS de estado-->
+                <div class="row">
+                    <!--CARD1-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-001
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body ">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer1 border-success ">Entregado</div>
+                        </div>
+                    </div>
+
+                    <!--CARD2-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-002
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body ">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer2 border-success">Pendiente</div>
+                        </div>
+                    </div>
+                    <!--CARD3-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-003
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body ">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer3 border-success">Progreso</div>
+                        </div>
+                    </div>
+                    <!--CARD4-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-004
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body ">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer4 border-success">Completado</div>
+                        </div>
+                    </div>
+                    <!--CARD5-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-005
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body ">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer5 border-success">Pendiente</div>
+                        </div>
+                    </div>
+                    <!--CARD6-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-006
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer6 border-success">Completado</div>
+                        </div>
+                    </div>
+                    <!--CARD7-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-007
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body ">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer7 border-success">Progreso</div>
+                        </div>
+                    </div>
+                    <!--CARD8-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-008
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body ">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer8 border-success">Completado</div>
+                        </div>
+                    </div>
+                    <!--CARD9-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-009
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body ">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer9 border-success">Progreso</div>
+                        </div>
+                    </div>
+                    <!--CARD10-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-010
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body ">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer10 border-success">Pendiente</div>
+                        </div>
+                    </div>
+                    <!--CARD11-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-011
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body ">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer11 border-success">Completado</div>
+                        </div>
+                    </div>
+                    <!--CARD12-->
+                    <div class="col-md-3 mb-4">
+                        <div class="card border-success">
+                            <div class="card-header border-success">#ORD-012
+                                <span class="order-date">Fecha: 10/06/2025</span>
+                            </div>
+                            <div class="card-body ">
+                                <p><strong>Cliente:</strong> Innova Textil S.A.</p>
+                                <p><strong>Producto:</strong> 500 Camisetas Blancas</p>
+                                <p><strong>Entrega Estimada:</strong> 25/06/2025</p>
+                            </div>
+                            <div class="card-footer12 border-success">Progreso</div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Pedidos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/empleado.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Barra lateral izquierda -->
+        <div class="sidebar">
+            <a href="#" class="profile">
+                <img src="{{ url_for('static', filename='img/iconousuario.png') }}" alt="Perfil" class="profile-icon">
+                <span>Perfil</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoemple.png') }}" alt="Empleados" class="icon">
+                <span>usuarios</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoprovee.png') }}" alt="Proveedores" class="icon">
+                <span>Tareas</span>
+            </a>
+            
+            <a href="{{ url_for('clientes.mostrar_clientes') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconocliente.png') }}" alt="Clientes" class="icon">
+                <span>Clientes</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoconfi.png') }}" alt="Configuración" class="icon">
+                <span>Configuración</span>
+            </a>
+        </div>
+        <!-- Barra de navegación superior -->
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-links">
+                    <a href="{{ url_for('home.mostar_home') }}" class="nav-link">Inicio</a>
+                    <a href="{{ url_for('pedidos.mostrar_pedidos') }}" class="nav-link">Pedidos</a>
+                    <a href="{{ url_for('material.mostrar_material') }}" class="nav-link">Material</a>
+                    <a href="{{ url_for('empleados.mostrar_empleados') }}" class="nav-link">Balance general</a>
+                </div>
+                <div class="logout">
+                    <a href="login.html">
+                        <a href="login.html">
+                            <img src="{{ url_for('static', filename='img/iconosalida.png') }}" alt="Logout" class="logout-icon">
+                        </a>
+                    </a>     
+                </div>
+            </nav>
+            <!-- Contenido principal -->
+            <div class="content">
+                <h1>Eliminar Empleado</h1>
+                <div class="container">
+                    <div class="form-container">
+                        <div class="warning">
+                            <strong>⚠️ Advertencia:</strong>
+                            Esta acción eliminará permanentemente el usuario seleccionado. Esta operación no se puede deshacer.
+                        </div>
+            
+                        {% if mensaje %}
+                            <div class="mensaje {% if 'exitosamente' in mensaje %}success{% elif 'Error' in mensaje or 'no existe' in mensaje %}error{% else %}info{% endif %}">
+                                {{ mensaje }}
+                            </div>
+                        {% endif %}
+            
+                        {% if usuarios %}
+                            <form method="POST" onsubmit="return confirmarEliminacion()">
+                                <div class="form-group">
+                                    <label for="id_usuario">Seleccionar usuario a eliminar:</label>
+                                    <select name="id_usuario" id="id_usuario" required>
+                                        <option value="">-- Seleccione un usuario --</option>
+                                        {% for usuario in usuarios %}
+                                            <option value="{{ usuario.id_usuario }}">
+                                                {{ usuario.nombre_usuario }} ({{ usuario.email }})
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            
+                                <div class="btn-group">
+                                    <button type="submit" class="btn-danger">🗑️ Eliminar Usuario</button>
+                                </div>
+                            </form>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre de Usuario</th>
+                                    <th>Email</th>
+                                    <th>Fecha de Registro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for usuario in usuarios %}
+                                <tr>
+                                    <td>{{ usuario.id_usuario }}</td>
+                                    <td>{{ usuario.nombre_usuario }}</td>
+                                    <td>{{ usuario.email }}</td>
+                                    <td>{{ usuario.fecha_registro.strftime('%d/%m/%Y %H:%M:%S') if usuario.fecha_registro else 'N/A' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <a href="{{ url_for('home.mostar_home') }}" class="btn volver">Volver</a>
+                    </div>
+                        {% else %}
+                        <div class="no-data">
+                            No hay usuarios registrados para eliminar.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function confirmarEliminacion() {
+            const select = document.getElementById('id_usuario');
+            const selectedOption = select.options[select.selectedIndex];
+            
+            if (select.value === '') {
+                alert('Por favor seleccione un usuario para eliminar.');
+                return false;
+            }
+            const nombreUsuario = selectedOption.text;
+            const confirmacion = confirm(`¿Está seguro de que desea eliminar el usuario: ${nombreUsuario}?\n\nEsta acción no se puede deshacer.`);
+            return confirmacion;
+        }
+    </script>
+</body>
+</html>
