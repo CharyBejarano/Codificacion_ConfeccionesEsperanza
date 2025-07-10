@@ -1,5 +1,4 @@
 # app/modelos/modelo_empleados.py
-
 def obtener_usuarios(connection):
     with connection.cursor() as cursor:
         cursor.execute("""

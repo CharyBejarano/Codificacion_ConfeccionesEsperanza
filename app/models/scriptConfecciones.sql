@@ -1,3 +1,6 @@
+CREATE DATABASE mel_app;
+USE mel_app;
+
 -- Tabla: tipoDocumento
 CREATE TABLE tipoDocumento (
     tipo_Doc VARCHAR(25) PRIMARY KEY,
@@ -85,19 +88,20 @@ CREATE TABLE Tarea_Producto_has_Usuario (
     FOREIGN KEY (Usuario_Persona_tipoDocumento_tipo_Doc, Usuario_Persona_num_identificacion)
         REFERENCES Usuario(Persona_tipoDocumento_tipo_Doc, Persona_num_identificacion)
 );
--- Tabla: Tipo (tipo de material)
-CREATE TABLE Tipo (
-    descripcion_tipo  VARCHAR(34),
-    Material_id_material INT PRIMARY KEY
-);
+
 -- Tabla: Material
 CREATE TABLE Material (
     id_material INT PRIMARY KEY AUTO_INCREMENT,
-    Nombre VARCHAR(45),
-    cantidad INT,
-    Unidad_medida VARCHAR(45),
-    Fecha_entrada DATE
+    Nombre VARCHAR(100) NOT NULL,
+    tipo_material VARCHAR(50),
+    cantidad INT NOT NULL DEFAULT 0,
+    Unidad_medida VARCHAR(20) NOT NULL,
+    proveedor VARCHAR(100) NOT NULL,
+    Fecha_entrada DATE NOT NULL
 );
+
+DROP Table IF EXISTS material;
+
 -- Tabla intermedia: Producto_Material
 CREATE TABLE Producto_Material (
     Material_id_material INT,
@@ -111,4 +115,10 @@ INSERT INTO tipodocumento (tipo_Doc, Estado, descripcion)
 VALUES 
 ('CC', 1, 'Cédula de Ciudadanía'),
 ('TI', 1, 'Tarjeta de Identidad'),
+('NIT',1, 'Numero de Identificacion Tributaria'),
 ('CE', 1, 'Cédula de Extranjería');
+
+
+
+CREATE DATABASE mel_app;
+USE mel_app;

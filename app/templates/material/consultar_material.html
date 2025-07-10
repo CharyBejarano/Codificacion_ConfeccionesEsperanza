@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock de Materiales</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inventario.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-icons/bootstrap-icons.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Barra lateral izquierda -->
+        <div class="sidebar">
+            <a href="perfil.html" class="profile">
+                <img src="{{ url_for('static', filename='img/iconousuario.png') }}" alt="Perfil" class="profile-icon">
+                <span>Perfil</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoemple.png') }}" alt="Empleados" class="icon">
+                <span>Empleados</span>
+            </a>
+            
+            <a href="proveedores.html" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoprovee.png') }}" alt="Proveedores" class="icon">
+                <span>Proveedores</span>
+            </a>
+            
+            <a href="{{ url_for('clientes.mostrar_clientes') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconocliente.png') }}" alt="Clientes" class="icon">
+                <span>Clientes</span>
+            </a>
+            
+            <a href="configuracion.html" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoconfi.png') }}" alt="Configuración" class="icon">
+                <span>Configuración</span>
+            </a>
+        </div>
+
+        <!-- Barra de navegación superior -->
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Inicio</a>
+                    <a href="pedidos.html" class="nav-link">Pedidos</a>
+                    <a href="{{ url_for('material.consultar_material') }}" class="nav-link active">Material</a>
+                    <a href="balance.html" class="nav-link">Balance general</a>
+                </div>
+                <div class="logout">
+                    <a href="login.html">
+                        <img src="{{ url_for('static', filename='img/iconosalida.png') }}" alt="Logout" class="logout-icon">
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Contenido principal -->
+            <div class="content">
+                <div class="container-fluid mt-3">
+                    <h1 class="mb-4">Stock de Materiales</h1>
+
+                    <!-- Mensajes Flash -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <!-- Barra de acciones -->
+                    <div class="d-flex justify-content-between mb-4">
+                        <div class="search-box w-50">
+                            <input type="text" id="buscador" placeholder="Buscar material..." class="form-control" />
+                        </div>
+                        <div class="action-buttons">
+                            <button type="button" id="btn-filtros" class="btn btn-outline-secondary me-2">
+                                <i class="bi bi-funnel"></i> Filtros
+                            </button>
+                            <a href="{{ url_for('material.registrar_material') }}" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> Nuevo Material
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Filtros opcionales -->
+                    <div class="filtros-opciones card mb-4 p-3" id="filtrosMateriales" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tipo de material:</label>
+                                <select id="filtro-tipo" class="form-select">
+                                    <option value="">Todos</option>
+                                    {% for tipo in tipos_material %}
+                                        <option value="{{ tipo }}">{{ tipo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Proveedor:</label>
+                                <select id="filtro-proveedor" class="form-select">
+                                    <option value="">Todos</option>
+                                    {% for proveedor in proveedores %}
+                                        <option value="{{ proveedor }}">{{ proveedor }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cards de stock -->
+                    {% if materiales %}
+                    <div class="row g-3" id="contenedor-cards">
+                        {% for material in materiales %}
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 card-material {{ material.tipo_material }} {{ material.proveedor|replace(' ', '') }}">
+                            <div class="card h-100 border-0 shadow-sm 
+                                {% if material.cantidad < 5 %}border-danger
+                                {% elif material.cantidad < 10 %}border-warning
+                                {% else %}border-success
+                                {% endif %}">
+                                <div class="card-header bg-light">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <strong class="text-truncate">{{ material.Nombre }}</strong>
+                                        <span class="badge bg-secondary">{{ material.tipo_material }}</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <small class="text-muted">Stock disponible:</small>
+                                        <div class="fw-bold">{{ material.cantidad }} {{ material.Unidad_medida }}</div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <small class="text-muted">Proveedor:</small>
+                                        <div>{{ material.proveedor }}</div>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted">Fecha entrada:</small>
+                                        <div>{{ material.Fecha_entrada.strftime('%d/%m/%Y') }}</div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent text-center py-2
+                                    {% if material.cantidad < 5 %}bg-danger text-white
+                                    {% elif material.cantidad < 10 %}bg-warning
+                                    {% else %}bg-success text-white
+                                    {% endif %}">
+                                    {% if material.cantidad < 5 %}Stock Bajo
+                                    {% elif material.cantidad < 10 %}Stock Medio
+                                    {% else %}Stock Suficiente
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        No hay materiales registrados. <a href="{{ url_for('material.registrar_material') }}" class="alert-link">Registrar nuevo material</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        // Función para mostrar/ocultar filtros
+        document.getElementById("btn-filtros").addEventListener("click", function() {
+            const filtros = document.getElementById("filtrosMateriales");
+            filtros.style.display = filtros.style.display === "none" ? "block" : "none";
+        });
+
+        // Filtrado de materiales
+        document.addEventListener('DOMContentLoaded', function() {
+            const buscador = document.getElementById('buscador');
+            const filtroTipo = document.getElementById('filtro-tipo');
+            const filtroProveedor = document.getElementById('filtro-proveedor');
+            const cards = document.querySelectorAll('.card-material');
+
+            function filtrarMateriales() {
+                const textoBusqueda = buscador.value.toLowerCase();
+                const tipoSeleccionado = filtroTipo.value;
+                const proveedorSeleccionado = filtroProveedor.value;
+
+                cards.forEach(card => {
+                    const nombre = card.querySelector('.card-header strong').textContent.toLowerCase();
+                    const tipo = card.classList.contains(tipoSeleccionado) || tipoSeleccionado === '';
+                    const proveedor = card.classList.contains(proveedorSeleccionado.replace(' ', '')) || proveedorSeleccionado === '';
+                    const coincideTexto = nombre.includes(textoBusqueda) || textoBusqueda === '';
+
+                    if (tipo && proveedor && coincideTexto) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // Event listeners para los filtros
+            buscador.addEventListener('input', filtrarMateriales);
+            filtroTipo.addEventListener('change', filtrarMateriales);
+            filtroProveedor.addEventListener('change', filtrarMateriales);
+        });
+    </script>
+</body>
+</html>

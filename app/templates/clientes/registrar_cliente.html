@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Cliente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilosCliente.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a href="perfil.html" class="profile">
+                <img src="{{ url_for('static', filename='img/iconousuario.png') }}" alt="Perfil" class="profile-icon">
+                <span>Perfil</span>
+            </a>
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoemple.png') }}" alt="Empleados" class="icon">
+                <span>Empleados</span>
+            </a>
+            <a href="proveedores.html" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoprovee.png') }}" alt="Proveedores" class="icon">
+                <span>Proveedores</span>
+            </a>
+            <a href="{{ url_for('clientes.mostrar_clientes') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconocliente.png') }}" alt="Clientes" class="icon">
+                <span>Clientes</span>
+            </a>
+            <a href="configuracion.html" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoconfi.png') }}" alt="Configuración" class="icon">
+                <span>Configuración</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Inicio</a>
+                    <a href="pedidos.html" class="nav-link">Pedidos</a>
+                    <a href="inventario.html" class="nav-link">Stock</a>
+                    <a href="balance.html" class="nav-link">Balance general</a>
+                </div>
+                <div class="logout">
+                    <a href="login.html">
+                        <img src="{{ url_for('static', filename='img/iconosalida.png') }}" alt="Logout" class="logout-icon">
+                    </a>
+                </div>
+            </nav>
+
+            <div class="content">
+                <h2>Registrar Nuevo Cliente</h2>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class="flashes">
+                            {% for category, message in messages %}
+                                <li class="{{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="{{ url_for('clientes.registrar_cliente') }}">
+                    <div class="formulario">
+                        <h3>Datos de la Persona de Contacto:</h3>
+                        <div class="form-row">
+                            <input type="text" id="num_identificacion" name="num_identificacion" class="input-text" placeholder="Número de Identificación (Persona)" required/>
+                            
+                            <select id="tipo_documento" name="tipo_documento" class="input-select" required>
+                                <option value="">Tipo de Documento (Persona)</option>
+                                <option value="CC">Cédula de Ciudadanía</option>
+                                <option value="NIT">NIT</option>
+                                <option value="CE">Cédula de Extranjería</option>
+                                <option value="TI">Tarjeta de Identidad</option>
+                                </select>
+                            
+                            <input type="text" id="nombre" name="nombre" class="input-text" placeholder="Nombre (Persona)" required/>
+                            <input type="text" id="apellido" name="apellido" class="input-text" placeholder="Apellido (Persona)" />
+                            <input type="email" id="correo" name="correo" class="input-text" placeholder="Correo Electrónico (Persona)" required/>
+                            <input type="text" id="telefono" name="telefono" class="input-text" placeholder="Teléfono de Contacto (Persona)" />
+                        </div>
+
+                        <div class="form-row">
+                            <input type="text" id="razon_social" name="razon_social" class="input-text" placeholder="Razón Social (NIT del Cliente)" required/>
+                            <input type="text" id="direccion" name="direccion" class="input-text" placeholder="Dirección (Específica del Cliente)" />
+                        </div>
+
+                        <div class="grupo-botones">
+                            <button type="submit" class="boton guardar">
+                                <img src="{{ url_for('static', filename='img/salvar.png') }}" class="icon" alt="Guardar" />
+                                Guardar Cliente
+                            </button>
+                            <a href="{{ url_for('clientes.consultar_cliente') }}" class="boton volver">
+                                <img src="{{ url_for('static', filename='img/volver.png') }}" class="icon" alt="Ver Clientes" />
+                                Ver Clientes
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

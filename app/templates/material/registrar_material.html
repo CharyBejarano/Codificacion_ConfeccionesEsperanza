@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Material</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stilos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inventario.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-icons/bootstrap-icons.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Barra lateral izquierda -->
+        <div class="sidebar">
+            <a href="perfil.html" class="profile">
+                <img src="{{ url_for('static', filename='img/iconousuario.png') }}" alt="Perfil" class="profile-icon">
+                <span>Perfil</span>
+            </a>
+            
+            <a href="{{ url_for('empleados.mostrar_empleados') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoemple.png') }}" alt="Empleados" class="icon">
+                <span>Empleados</span>
+            </a>
+            
+            <a href="proveedores.html" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoprovee.png') }}" alt="Proveedores" class="icon">
+                <span>Proveedores</span>
+            </a>
+            
+            <a href="{{ url_for('clientes.mostrar_clientes') }}" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconocliente.png') }}" alt="Clientes" class="icon">
+                <span>Clientes</span>
+            </a>
+            
+            <a href="configuracion.html" class="menu-item">
+                <img src="{{ url_for('static', filename='img/iconoconfi.png') }}" alt="Configuración" class="icon">
+                <span>Configuración</span>
+            </a>
+        </div>
+
+        <!-- Barra de navegación superior -->
+        <div class="main-content">
+            <nav class="top-nav">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Inicio</a>
+                    <a href="pedidos.html" class="nav-link">Pedidos</a>
+                    <a href="{{ url_for('material.consultar_material') }}" class="nav-link active">material</a>
+                    <a href="balance.html" class="nav-link">Balance general</a>
+                </div>
+                <div class="logout">
+                    <a href="login.html">
+                        <img src="{{ url_for('static', filename='img/iconosalida.png') }}" alt="Logout" class="logout-icon">
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Contenido principal -->
+            <div class="content">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="alert-container">
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="{{ url_for('material.registrar_material') }}" class="needs-validation" novalidate>
+                    <div class="formulario">
+                        <h2>Registrar Nuevo Material</h2>
+                        
+                        <div class="form-group">
+                            <label for="nombre" class="form-label">Nombre del Material</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del material" required>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tipo_material" class="form-label">Tipo de Material</label>
+                            <select id="tipo_material" name="tipo_material" class="form-select" required>
+                                <option value="" selected disabled>Seleccione un tipo</option>
+                                <option value="tela">Tela</option>
+                                <option value="hilo">Hilo</option>
+                                <option value="boton">Botón</option>
+                                <option value="cremallera">Cremallera</option>
+                                <option value="forro">Forro</option>
+                                <option value="entretela">Entretela</option>
+                                <option value="adorno">Adorno</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="unidad_medida" class="form-label">Unidad de Medida</label>
+                            <select id="unidad_medida" name="unidad_medida" class="form-select" required>
+                                <option value="" selected disabled>Seleccione unidad</option>
+                                <option value="metros">Metros</option>
+                                <option value="unidades">Unidades</option>
+                                <option value="rollos">Rollos</option>
+                                <option value="paquetes">Paquetes</option>
+                                <option value="kilos">Kilos</option>
+                            </select>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cantidad" class="form-label">Cantidad Inicial</label>
+                            <input type="number" id="cantidad" name="cantidad" class="form-control" placeholder="0" min="0" required>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="proveedor" class="form-label">Proveedor</label>
+                            <input type="text" id="proveedor" name="proveedor" class="form-control" placeholder="Nombre del proveedor" required>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha_entrada" class="form-label">Fecha de entrada</label>
+                            <input type="date" id="fecha_entrada" name="fecha_entrada" class="form-control" required>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+
+                        <div class="grupo-botones mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <img src="{{ url_for('static', filename='img/salvar.png') }}" class="icon me-2">
+                                Guardar Material
+                            </button>
+                            <button type="reset" class="btn btn-secondary">Limpiar Formulario</button>
+                        </div>
+                    </div>
+                    
+                    <div class="botones-inferiores mt-3">
+                        <a href="{{ url_for('material.consultar_material') }}" class="btn btn-outline-primary">
+                            <i class="bi bi-arrow-left"></i> Ir al Inventario
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        // Validación del formulario
+        (function() {
+            'use strict'
+            
+            // Obtener todos los formularios a los que queremos aplicar estilos de validación de Bootstrap
+            const forms = document.querySelectorAll('.needs-validation')
+            
+            // Bucle sobre ellos y evitar el envío
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    
+                    form.classList.add('was-validated')
+                }, false)
+            })
+            
+            // Establecer fecha actual por defecto
+            document.getElementById('fecha_entrada').valueAsDate = new Date();
+        })()
+    </script>
+</body>
+</html>
